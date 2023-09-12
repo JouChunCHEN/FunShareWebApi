@@ -132,6 +132,7 @@ namespace FunShareWebApi.Controllers
                 return NotFound();
             }
             var products = await _context.ProductDetail.Where(p=>p.Product.SupplierId==id)
+                .Where(p => p.Product.StatusId==12)
                 .Select(p => new CEventListForApp
             {
                 ProductDetail_ID = p.ProductDetailId,
@@ -141,7 +142,8 @@ namespace FunShareWebApi.Controllers
                 Address = p.District.City.CityName+ p.District.DistrictName+ p.Address,
                 ImageFileName = p.Product.ImageList.First().ImagePath,
                 Stock = (int)p.Stock
-                }).ToListAsync();
+                })
+                .ToListAsync();
 
             return products;
         }
